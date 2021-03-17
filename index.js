@@ -5,8 +5,8 @@ const port = 3000
 
 app.use('/', routes);
 
-app.get('*', (req, res) => {
-  res.send('Hello World!')
+app.get('/cardapio', (req, res) => {
+  res.send('Você está na página de cardápio')
 })
 
 app.listen(port, () => {
