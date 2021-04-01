@@ -6,32 +6,40 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      userId: {
         type: Sequelize.INTEGER,
-        references: { model: 'Users', key: 'id'}
       },
-      clientName: {
-        type: Sequelize.STRING
+      user_id: {
+        allowNull: false,
+        references: { model: 'Users', key: 'id' },
+        type: Sequelize.INTEGER,
+      },
+      client_name: {
+        allowNull: false,
+        type: Sequelize.STRING,
       },
       table: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
       },
       status: {
-        type: Sequelize.STRING
+        defaultValue: 'preparando',
+        type: Sequelize.STRING,
+      },
+      processedAt: {
+        defaultValue: Date.now(),
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Orders');
-  }
+  },
 };

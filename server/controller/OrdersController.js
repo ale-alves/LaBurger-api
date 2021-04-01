@@ -33,12 +33,13 @@ const getOrderById = (req, res) => {
 
 //INSERT ORDER
 const postOrder = (req, res) => {
-  const { userId, clientName, table, status } = req.body;
+  const { user_id, client_name, table, status, processedAt } = req.body;
   database.Orders.create({
-    userId,
-    clientName,
+    user_id,
+    client_name,
     table,
     status,
+    processedAt,
   })
     .then((result) => {
       res.status(201).json(result);
@@ -52,11 +53,11 @@ const postOrder = (req, res) => {
 
 //CHANGES THE DATA
 const putOrder = (req, res) => {
-  const { userId, clientName, table, status } = req.body;
+  const { user_id, client_name, table, status } = req.body;
   database.Orders.update(
     {
-      userId,
-      clientName,
+      user_id,
+      client_name,
       table,
       status,
     },

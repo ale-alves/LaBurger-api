@@ -33,14 +33,15 @@ const getProductById = (req, res) => {
 
 //INSERT PRODUCT
 const postProduct = (req, res) => {
-  const { name, price, flavor, complement, type, subType } = req.body;
+  const { name, price, flavor, complement, image, type, sub_type } = req.body;
   database.Products.create({
     name,
     price,
     flavor,
     complement,
+    image,
     type,
-    subType,
+    sub_type,
   })
     .then((result) => {
       res.status(201).json(result);
@@ -68,15 +69,16 @@ const postManyProducts = (req, res) => {
 
 //CHANGES THE DATA
 const putProduct = (req, res) => {
-  const { name, price, flavor, complement, type, subType } = req.body;
+  const { name, price, flavor, complement, image, type, sub_type } = req.body;
   database.Products.update(
     {
       name,
       price,
       flavor,
       complement,
+      image,
       type,
-      subType,
+      sub_type,
     },
     {
       where: {
