@@ -14,7 +14,6 @@ const getAllProducts = (req, res) => {
 };
 
 //VIEW PRODUCT BY ID
-
 const getProductById = (req, res) => {
   database.Products.findAll({
     where: {

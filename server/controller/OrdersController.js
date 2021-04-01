@@ -2,10 +2,32 @@ const database = require("../db/models");
 
 //VIEW ALL ORDERS
 const getAllOrders = (req, res) => {
-  database.Orders.findAll()
+  database.Orders.findAll({
+    include: [
+      {
+        model: database.Products,
+        as: "Products",
+        required: false,
+        attributes: [
+          "id",
+          "name",
+          "price",
+          "flavor",
+          "complement",
+          "image",
+          "type",
+          "sub_type",
+        ],
+        through: {
+          model: database.ProductsOrders,
+          as: "ProductsOrders",
+          attributes: ["amount"],
+        },
+      },
+    ],
+  })
     .then((result) => {
       res.status(200).json(result);
-      connection.end();
     })
     .catch(() =>
       res.status(400).json({
@@ -20,6 +42,28 @@ const getOrderById = (req, res) => {
     where: {
       id: req.params.id,
     },
+    include: [
+      {
+        model: database.Products,
+        as: "Products",
+        required: false,
+        attributes: [
+          "id",
+          "name",
+          "price",
+          "flavor",
+          "complement",
+          "image",
+          "type",
+          "sub_type",
+        ],
+        through: {
+          model: database.ProductsOrders,
+          as: "ProductsOrders",
+          attributes: ["amount"],
+        },
+      },
+    ],
   })
     .then((result) => {
       res.status(200).json(result);
@@ -32,23 +76,40 @@ const getOrderById = (req, res) => {
 };
 
 //INSERT ORDER
-const postOrder = (req, res) => {
+const postOrder = async (req, res) => {
   const { user_id, client_name, table, status, processedAt } = req.body;
-  database.Orders.create({
+  await database.Orders.create({
     user_id,
     client_name,
     table,
     status,
     processedAt,
-  })
-    .then((result) => {
-      res.status(201).json(result);
-    })
-    .catch(() =>
-      res.status(400).json({
-        message: "ERROR! Try again!",
+  }).then((result) => {
+    req.body.products
+      .map((item) => {
+        const itemProduct = database.Products.findByPk(item.id);
+        if (!itemProduct) {
+          return res.status(400).json({
+            message: "ERROR! Try again!",
+          });
+        }
+
+        const itemOrders = {
+          order_id: result.id,
+          product_id: item.id,
+          amount: item.amount,
+        };
+
+        database.ProductsOrders.create(itemOrders);
+
+        return res.status(200).json(result);
       })
-    );
+      .catch(() =>
+        res.status(400).json({
+          message: "ERROR! Try again!",
+        })
+      );
+  });
 };
 
 //CHANGES THE DATA
@@ -63,7 +124,7 @@ const putOrder = (req, res) => {
     },
     {
       where: {
-        id: req.params.orderId,
+        id: req.params.id,
       },
     }
   )
@@ -88,7 +149,7 @@ const deleteOrder = (req, res) => {
   })
     .then(() => {
       res.status(200).json({
-        message: "Order successfully deleted :)",
+        message: "Successfully deleted :)",
       });
     })
     .catch(() =>
