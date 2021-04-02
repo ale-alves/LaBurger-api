@@ -1,14 +1,14 @@
 const express = require('express')
 const routes = require('./server/routes')
 const app = express()
-const PORT = 3000
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(routes);
 
-app.listen(PORT, () => {
-  console.log('Você está no caminho certo :)')
-})
+app.listen(port, () => {
+  console.log('Você está no caminho certo :)');
+});
 
 
 
