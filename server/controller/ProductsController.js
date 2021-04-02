@@ -8,7 +8,7 @@ const getAllProducts = (req, res) => {
     })
     .catch(() =>
       res.json({
-        message: 'ERROR! Try again!',
+        message: "ERROR! Try again!",
       })
     );
 };
@@ -25,7 +25,7 @@ const getProductById = (req, res) => {
     })
     .catch(() =>
       res.json({
-        message:'ERROR! Try again!',
+        message: "ERROR! Try again!",
       })
     );
 };
@@ -47,24 +47,10 @@ const postProduct = (req, res) => {
     })
     .catch(() =>
       res.json({
-        message: 'ERROR! Try again!',
+        message: "ERROR! Try again!",
       })
     );
 };
-
-//INSERT MANY PRODUCTS
-const postManyProducts = (req, res) => {
-    const many = req.body;
-    database.Products.postMany(many)
-      .then((result) => {
-        res.status(201).json(result);
-      })
-      .catch(() =>
-        res.json({
-          message: 'ERROR! Try again!',
-        })
-      );
-  };
 
 //CHANGES THE DATA
 const putProduct = (req, res) => {
@@ -87,12 +73,12 @@ const putProduct = (req, res) => {
   )
     .then(() => {
       res.status(200).json({
-        message: 'Updated successfully :)',
+        message: "Updated successfully :)",
       });
     })
     .catch(() => {
       res.json({
-        message: 'ERROR! Try again!',
+        message: "ERROR! Try again!",
       });
     });
 };
@@ -106,15 +92,20 @@ const deleteProduct = (req, res) => {
   })
     .then(() => {
       res.status(200).json({
-        message: 'Successfully deleted :)',
+        message: "Successfully deleted :)",
       });
     })
     .catch(() => {
       res.json({
-        message: 'ERROR! Try again!',
+        message: "ERROR! Try again!",
       });
     });
 };
 
-module.exports = { getAllProducts, getProductById, postProduct, postManyProducts, putProduct, deleteProduct };
-
+module.exports = {
+  getAllProducts,
+  getProductById,
+  postProduct,
+  putProduct,
+  deleteProduct,
+};
