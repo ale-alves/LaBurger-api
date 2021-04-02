@@ -4,6 +4,7 @@ const router = Router()
 const UsersRouter = require('./UsersRouter')
 const ProductsRouter = require('./ProductsRouter')
 const OrdersRouter = require('./OrdersRouter')
+// const authRouter = require('./AuthRouter');
 
 const morgan = require('morgan')
 router.use(morgan('dev'))
@@ -13,6 +14,7 @@ router.use(morgan('dev'))
 router.use('/users', UsersRouter)
 router.use('/products', ProductsRouter)
 router.use('/orders', OrdersRouter)
+// router.use('/auth', authRouter);
 
 
 //ERROR - ROUTE NOT FOUND 
